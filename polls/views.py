@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, Http404
 
 from .models import Question
 
@@ -16,9 +16,9 @@ def index(request):
 
 
 def detail(request, question_id):
-    q = Question.objects.get(pk=question_id)
+    # list(QuerySet)가 return될 시에는 get_object_or_404 대신 get_list_or_404를 활용
+    q = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/detail.html', {'question':q})
-
 
 def results(request, question_id):
     response = "You're looking at the results of question {}."
